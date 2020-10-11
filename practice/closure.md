@@ -5,6 +5,12 @@
 ```js
 // Your code goes here
 
+function multiplyBy(a) {
+  return function(b) {
+    return a * b;
+  }
+}
+
 const double = multiplyBy(2);
 const final = double(15); // final should be 30
 ```
@@ -14,6 +20,12 @@ const final = double(15); // final should be 30
 ```js
 // Your code goes here
 
+function fullName(firstName){
+  return function (lastName) {
+    return `${firstName} ${lastName}`
+  }
+}
+
 const name = fullName("Will");
 const final = name("Smith"); // final should be "Will Smith"
 ```
@@ -21,8 +33,12 @@ const final = name("Smith"); // final should be "Will Smith"
 3. Write a function called `isInBetween` which takes two parameter `a` and `b` and returns a function. When you call the returned function with any number it returns `true` if the value is in between `a` and `b`.
 
 ```js
+// your code goes here
+
 function isInBetween(a, b) {
-  // your code goes here
+  return function(c) {
+      return (a>b) ? a >= c && c >= b : a <= c && b >= c;
+    }
 }
 
 const isChild = isInBetween(10, 100);
@@ -31,11 +47,16 @@ isChild(45); // true
 isChild(103); // false
 ```
 
-4. Write a function call `letsWishThem` that take one parameter `string` called `greeting` and returns a fucntion that takes another argument called `message`.
+4. Write a function call `letsWishThem` that take one parameter `string` called `greeting` and returns a function that takes another argument called `message`.
 
 ```js
+
+// your code goes here
+
 function letsWishThem(greeting) {
-  // your code goes here
+  return function(msg) {
+    return `${greeting} ${msg}`;
+  }
 }
 
 const callWithHey = letsWishThem("Hey");
@@ -47,8 +68,14 @@ callWithHello("How Are You?"); // Hello How Are You?
 5. Write a function called `addGame` which takes a string (name of the game) and returns a function calling that will increment the score by one and print something like `Score of Basketball is 1`.
 
 ```js
+
+// your code goes here
+
 function addGame(gameName) {
-  // your code goes here
+    let score = 0;
+    return function(){
+      return ++score
+    }
 }
 
 // Output
@@ -63,15 +90,25 @@ cricket(); // Your score of Cricket is 2
 6. Write a function called `getCard` which takes one of these options (club, spade, heart, dimond) returns a function calling that function returns random card (2,3,4,5,6,7,8,9,10,J, Q, K, A) of that suit.
 
 ```js
+
+// your code goes here
+
 function getCard(suit) {
-  // your code goes here
+  const options = ["club", "spade", "heart", "dimond"]
+  if(options.includes(suit.toLowerCase())) {
+    const cards = [2,3,4,5,6,7,8,9,10,"J", "Q", "K", "A"];
+    return function(){
+      const random = Math.floor(Math.random() * cards.length);
+      return `Card is: ${cards[random]} ${suit}`;
+    }
+  }
 }
 
 // Output
-const randomClub = addGame("Club");
+const randomClub = getCard("Club");
 randomClub(); // Card is: 6 Club
 randomClub(); // Card is: A Club
-const randomSpade = addGame("Spade");
+const randomSpade = getCard("Spade");
 randomSpade(); // Card is: 6 Spade
 randomSpade(); // Card is: A Spade
 ```
