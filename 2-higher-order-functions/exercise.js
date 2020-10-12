@@ -50,7 +50,7 @@ console.log(mapWith([1, 2, 3], addTwo));
 
 //Extension 2
 function reduce(array, callback, initialValue) {
-	let result = initialValue;
+	let result = initialValue ?? array[0];
 	forEach(array, (e) => {
 		result = callback(result, e);
 	});
@@ -59,24 +59,10 @@ function reduce(array, callback, initialValue) {
 
 //Extension 3
 function intersection(...arrays) {
-	return reduce(
-		arrays[0],
-		(acc, c) => {
-			const avabilityArr = [];
-			forEach(arrays, (e) => {
-				if (e.includes(c)) {
-					avabilityArr.push(true);
-				} else {
-					avabilityArr.push(false);
-				}
-			});
-			if (avabilityArr.every((test) => test == true)) {
-				acc.push(c);
-			}
-			return acc;
-		},
-		[]
-	);
+	return reduce(arrays, (acc, cv) => {
+		acc = cv.filter((e) => acc.includes(e));
+		return acc;
+	});
 }
 
 console.log(intersection([5, 10, 15, 20], [15, 88, 1, 5, 7], [1, 10, 15, 5, 20]));
@@ -84,23 +70,9 @@ console.log(intersection([5, 10, 15, 20], [15, 88, 1, 5, 7], [1, 10, 15, 5, 20])
 
 //Extension 4
 function union(...arrays) {
-	return reduce(
-		arrays,
-		(acc, c) => {
-			reduce(
-				c,
-				(a, b) => {
-					if (!a.includes(b)) {
-						a.push(b);
-					}
-					return a;
-				},
-				acc
-			);
-			return acc;
-		},
-		[]
-	);
+	return reduce(arrays, (acc, cv) => {
+		return acc.concat(...cv.filter((e) => !acc.includes(e)));
+	});
 }
 
 console.log(union([5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]));
@@ -109,8 +81,8 @@ console.log(union([5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]));
 //Extension 5
 function objOfMatches(array1, array2, callback) {
 	const obj = {};
-	forEach(array1, (e) => {
-		if (array2.includes(callback(e))) {
+	forEach(array1, (e, i) => {
+		if (e.toUpperCase() == array2[i]) {
 			obj[e] = callback(e);
 		}
 	});
