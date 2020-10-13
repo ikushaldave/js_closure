@@ -1,9 +1,9 @@
 // Challenge 1. Flattening
 let arrays = [[1, 2, 3], [4, 5], [6]];
 
-arrays.reduce((a, c) => {
-	a.concat(c);
-	return a;
+arrays.reduce((acc, cv) => {
+	acc.concat(cv);
+	return acc;
 }, []);
 
 // Your code here.
@@ -34,7 +34,7 @@ loop(
 // using some
 
 function every(array, test) {
-	return array.reduce((a, c) => a && [c].some((e) => test(e)), true);
+	return array.reduce((acc, cv) => acc && [cv].some((val) => test(val)), true);
 }
 
 // using loop
@@ -63,9 +63,7 @@ function characterScript(code) {
 function filter(arr, cb) {
 	const filteredArr = [];
 	for (let val of arr) {
-		// console.log(cb(val));
 		if (cb(val)) {
-			// console.log(val);
 			filteredArr.push(val);
 		}
 	}
@@ -90,7 +88,6 @@ function dominantDirection(text) {
 			ttb++;
 		}
 	});
-	console.log(ltr, rtl, ttb);
 	return ltr > rtl && ltr > ttb ? "ltr" : rtl > ltr && rtl > ttb ? "rtl" : "ttb";
 }
 

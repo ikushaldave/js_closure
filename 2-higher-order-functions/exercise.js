@@ -19,8 +19,8 @@ console.log(addS("bagel"));
 // Challenge 3
 function map(array, callback) {
 	const resulted = [];
-	for (let i = 0; i < array.length; i++) {
-		resulted.push(callback(array[i], i, array));
+	for (let index = 0; index < array.length; index++) {
+		resulted.push(callback(array[index], index, array));
 	}
 	return resulted;
 }
@@ -29,8 +29,8 @@ console.log(map([1, 2, 3], addTwo));
 
 // Challenge 4
 function forEach(array, callback) {
-	for (let i = 0; i < array.length; i++) {
-		callback(array[i], i, array);
+	for (let index = 0; index < array.length; index++) {
+		callback(array[index], index, array);
 	}
 }
 // see for yourself if your forEach works!
@@ -42,7 +42,7 @@ function forEach(array, callback) {
 //Extension 1
 function mapWith(array, callback) {
 	const resulted = [];
-	forEach(array, (e, i, a) => resulted.push(callback(e, i, a)));
+	forEach(array, (element, index, arr) => resulted.push(callback(element, index, arr)));
 	return resulted;
 }
 
@@ -50,17 +50,17 @@ console.log(mapWith([1, 2, 3], addTwo));
 
 //Extension 2
 function reduce(array, callback, initialValue) {
-	let result = initialValue ?? array[0];
-	forEach(array, (e) => {
-		result = callback(result, e);
+	let acc = initialValue ?? array[0];
+	forEach(array, (cv) => {
+		acc = callback(acc, cv);
 	});
-	return result;
+	return acc;
 }
 
 //Extension 3
 function intersection(...arrays) {
 	return reduce(arrays, (acc, cv) => {
-		acc = cv.filter((e) => acc.includes(e));
+		acc = cv.filter((element) => acc.includes(element));
 		return acc;
 	});
 }
@@ -71,7 +71,7 @@ console.log(intersection([5, 10, 15, 20], [15, 88, 1, 5, 7], [1, 10, 15, 5, 20])
 //Extension 4
 function union(...arrays) {
 	return reduce(arrays, (acc, cv) => {
-		return acc.concat(...cv.filter((e) => !acc.includes(e)));
+		return acc.concat(...cv.filter((element) => !acc.includes(element)));
 	});
 }
 
@@ -81,9 +81,9 @@ console.log(union([5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]));
 //Extension 5
 function objOfMatches(array1, array2, callback) {
 	const obj = {};
-	forEach(array1, (e, i) => {
-		if (e.toUpperCase() == array2[i]) {
-			obj[e] = callback(e);
+	forEach(array1, (element, index) => {
+		if (element.toUpperCase() == array2[index]) {
+			obj[element] = callback(element);
 		}
 	});
 	return obj;
@@ -99,8 +99,8 @@ console.log(
 //Extension 6
 function multiMap(arrVals, arrCallbacks) {
 	const obj = {};
-	forEach(arrVals, (e) => {
-		obj[e] = mapWith(arrCallbacks, (fn) => fn(e));
+	forEach(arrVals, (element) => {
+		obj[element] = mapWith(arrCallbacks, (fn) => fn(element));
 	});
 	return obj;
 }
